@@ -19,7 +19,7 @@ export class UserController {
       return;
     }
 
-    const [user, err] = await this.service.findOne(+req.params.id);
+    const [user, err] = await this.service.findOne({ id: +req.params.id });
 
     if (err) {
       res.status(err.statusCode).send(err);
