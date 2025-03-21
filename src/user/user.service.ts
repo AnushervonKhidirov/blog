@@ -1,8 +1,8 @@
-import type { User } from './user.type.js';
-import type { ValueErrorReturnPromise } from '../common/type/value-error-return.type.js';
+import type { User } from './user.type';
+import type { ValueErrorReturnPromise } from '../common/type/value-error-return.type';
 
-import { db } from '../database/database.js';
-import { NotFoundException } from '../exception/exception.js';
+import { db } from '../database/database';
+import { NotFoundException } from '../exception/exception';
 
 export class UserService {
   private readonly table = 'users';

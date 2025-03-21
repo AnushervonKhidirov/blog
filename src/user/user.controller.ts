@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { UserService } from './user.service.js';
-import { Validator } from '../common/validator/validator.js';
-import { BadRequestException } from '../exception/bad-request.exception.js';
+import { UserService } from './user.service';
+import { Validator } from '../common/validator/validator';
+import { BadRequestException } from '../exception/bad-request.exception';
 
 export class UserController {
   private readonly service: UserService;

@@ -1,5 +1,5 @@
 import { NotFound } from 'http-errors';
-import { HttpException } from './http.exception.js';
+import { HttpException } from './http.exception';
 
 export class NotFoundException extends HttpException {
   constructor(customMessage?: string | string[]) {
