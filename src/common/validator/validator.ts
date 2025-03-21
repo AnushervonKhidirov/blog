@@ -25,6 +25,14 @@ export class Validator {
     return this;
   }
 
+  IsEmail() {
+    if (typeof this.data !== 'string' || !RegExp(/^\S+@\S+\.\S+$/).test(this.data)) {
+      this.errors.push(`'${this.key}' should be an email`);
+    }
+
+    return this;
+  }
+
   IsNotEmpty() {
     if (!this.data || (Array.isArray(this.data) && this.data.length === 0)) {
       this.errors.push(`'${this.key}' should not be empty`);
