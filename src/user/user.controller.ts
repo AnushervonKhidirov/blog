@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { Validator } from '../common/validator/validator';
 import { BadRequestException } from '../exception/bad-request.exception';
@@ -19,7 +19,7 @@ export class UserController {
       return;
     }
 
-    const [user, err] = await this.service.findOne({ id: +req.params.id });
+    const [user, err] = await this.service.findOne({ id: +req.params.id! });
 
     if (err) {
       res.status(err.statusCode).send(err);

@@ -1,7 +1,7 @@
 import type { User } from './user.type';
 import type { ValueErrorReturnPromise } from '../common/type/value-error-return.type';
+import type { ResultSetHeader } from 'mysql2';
 
-import { ResultSetHeader } from 'mysql2';
 import { db } from '../database/database';
 import { CreateUserDto } from './dto/create-user.dto';
 import { NotFoundException, InternalServerErrorException } from '../exception/exception';
