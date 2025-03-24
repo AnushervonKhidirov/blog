@@ -22,6 +22,11 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+
+    "paths": {
+      "@type/*": ["./src/common/type/*"],
+      "@exception": ["./src/common/exception/exception"]
+    }
   }
 }
