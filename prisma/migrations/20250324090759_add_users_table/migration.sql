@@ -6,8 +6,8 @@ CREATE TABLE `users` (
     `first_name` VARCHAR(15) NOT NULL,
     `last_name` VARCHAR(15) NOT NULL,
     `birth_date` DATE NOT NULL,
-    `created_at` TIMESTAMP NOT NULL,
-    `updated_at` TIMESTAMP NOT NULL,
+    `created_at` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updated_at` TIMESTAMP(0) NOT NULL,
 
     UNIQUE INDEX `users_email_key`(`email`),
     PRIMARY KEY (`id`)
