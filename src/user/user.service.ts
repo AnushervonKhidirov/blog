@@ -10,6 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 export class UserService {
   repository = new PrismaClient().user;
+  cost = process.env.HASH_COST ? +process.env.HASH_COST : 5;
 
   async findOne(where: Prisma.UserWhereUniqueInput): ReturnPromiseWithErr<UserWithoutPassword> {
     try {
@@ -43,6 +44,11 @@ export class UserService {
         ];
       }
 
+      createUserDto.password = await Bun.password.hash(createUserDto.password, {
+        algorithm: 'bcrypt',
+        cost: this.cost,
+      });
+
       const user = await this.repository.create({ data: createUserDto, omit: { password: true } });
 
       if (!user) {
@@ -66,6 +72,13 @@ export class UserService {
     try {
       const [_, err] = await this.findOne({ id });
       if (err) return [null, err];
+
+      if (updateUserDto.password) {
+        updateUserDto.password = await Bun.password.hash(updateUserDto.password, {
+          algorithm: 'bcrypt',
+          cost: this.cost,
+        });
+      }
 
       const user = await this.repository.update({
         data: updateUserDto,

@@ -47,11 +47,6 @@ export class UserController {
       return;
     }
 
-    createUserDto.password = await Bun.password.hash(createUserDto.password, {
-      algorithm: 'bcrypt',
-      cost: 4,
-    });
-
     const [user, err] = await this.userService.create(createUserDto);
 
     if (err) {
@@ -75,13 +70,6 @@ export class UserController {
     if (validationErr) {
       res.status(validationErr.statusCode).send(validationErr);
       return;
-    }
-
-    if (updateUserDto.password) {
-      updateUserDto.password = await Bun.password.hash(updateUserDto.password, {
-        algorithm: 'bcrypt',
-        cost: 4,
-      });
     }
 
     const [user, err] = await this.userService.update(params.id, updateUserDto);
