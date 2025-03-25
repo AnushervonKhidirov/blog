@@ -17,6 +17,15 @@ model User {
   birthDate DateTime @map("birth_date") @db.Date
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  Token     Token[]
 
   @@map("users")
+}
+
+model Token {
+  refreshToken String @id @map("refresh_token")
+  userId       Int    @map("user_id")
+  User         User   @relation(fields: [userId], references: [id])
+
+  @@map("users_token")
 }
