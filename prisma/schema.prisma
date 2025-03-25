@@ -23,9 +23,10 @@ model User {
 }
 
 model Token {
-  refreshToken String @id @map("refresh_token")
-  userId       Int    @map("user_id")
-  User         User   @relation(fields: [userId], references: [id])
+  refreshToken String   @id @map("refresh_token")
+  userId       Int      @map("user_id")
+  expiredAt    DateTime @map("expired_at") @db.Timestamp(0)
+  User         User     @relation(fields: [userId], references: [id])
 
   @@map("users_token")
 }
