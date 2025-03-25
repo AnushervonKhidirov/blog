@@ -9,14 +9,19 @@
     "build": "bun build ./src/* --outdir ./build"
   },
   "dependencies": {
+    "@nestjs/mapped-types": "^2.1.0",
     "@prisma/client": "^6.5.0",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/joi": "^17.2.3",
+    "@types/winston": "^2.4.4",
     "prisma": "^6.5.0",
     "typescript": "^5.8.2"
   }
