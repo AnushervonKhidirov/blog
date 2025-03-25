@@ -1,7 +1,8 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { User } from '@prisma/client';
 import type { ReturnPromiseWithErr } from '@type/return-with-err.type';
 import type { UserWithoutPassword } from './user.type';
 
+import { Prisma, PrismaClient } from '@prisma/client';
 import { NotFoundException, InternalServerErrorException, ConflictException } from '@exception';
 import { logger } from '@config/logger/logger';
 
@@ -11,6 +12,17 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   repository = new PrismaClient().user;
   cost = process.env.HASH_COST ? +process.env.HASH_COST : 5;
+
+  async findOneWithPassword(where: Prisma.UserWhereUniqueInput): ReturnPromiseWithErr<User> {
+    try {
+      const user = await this.repository.findUnique({ where });
+      if (!user) return [null, new NotFoundException('User not found')];
+      return [user, null];
+    } catch (err) {
+      logger.error(err);
+      return [null, new InternalServerErrorException()];
+    }
+  }
 
   async findOne(where: Prisma.UserWhereUniqueInput): ReturnPromiseWithErr<UserWithoutPassword> {
     try {
