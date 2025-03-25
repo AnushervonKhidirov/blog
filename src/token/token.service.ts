@@ -19,8 +19,8 @@ export class TokenService {
         throw new Error("Can't get access or refresh secret key");
       }
 
-      const accessToken = sign(payload, this.accessSecret);
-      const refreshToken = sign(payload, this.refreshSecret);
+      const accessToken = sign(payload, this.accessSecret, { expiresIn: '10m' });
+      const refreshToken = sign(payload, this.refreshSecret, { expiresIn: '10h' });
 
       return [{ accessToken, refreshToken }, null];
     } catch (err) {
@@ -29,9 +29,12 @@ export class TokenService {
     }
   }
 
-  async save(data: UserToken): ReturnPromiseWithErr<UserToken> {
+  async save(data: Omit<UserToken, 'expiredAt'>): ReturnPromiseWithErr<UserToken> {
     try {
-      const userToken = await this.repository.create({ data });
+      const expiredAt = new Date();
+      expiredAt.setHours(expiredAt.getHours() + 10);
+
+      const userToken = await this.repository.create({ data: { ...data, expiredAt } });
       if (!userToken) return [null, new InternalServerErrorException('Unable to save token')];
       return [userToken, null];
     } catch (err) {
