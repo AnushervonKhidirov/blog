@@ -13,8 +13,7 @@
     "noEmit": true,
 
     // Best practices
-    "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
@@ -22,6 +21,13 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+
+    "paths": {
+      "@config/*": ["./src/config/*"],
+      "@type/*": ["./src/common/type/*"],
+      "@validation/*": ["./src/common/validation/*"],
+      "@exception": ["./src/common/exception/exception"]
+    }
   }
 }
