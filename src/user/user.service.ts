@@ -52,7 +52,7 @@ export class UserService {
       if (isExist) {
         return [
           null,
-          new ConflictException(`User with email: '${createUserDto.email} already exists'`),
+          new ConflictException(`User with email: '${createUserDto.email}' already exists`),
         ];
       }
 
@@ -122,7 +122,7 @@ export class UserService {
       if (!user) {
         return [
           null,
-          new InternalServerErrorException('Unable to update user, please try again later'),
+          new InternalServerErrorException('Unable to delete user, please try again later'),
         ];
       }
 
