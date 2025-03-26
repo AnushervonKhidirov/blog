@@ -1,5 +1,6 @@
 import type { JwtPayload } from 'jsonwebtoken';
 import type { ReturnPromiseWithErr } from '@type/return-with-err.type';
+import type { Token as UserToken } from '@prisma/client';
 import type { Token } from '../token/token.type';
 import type { UserWithoutPassword } from '../user/user.type';
 
@@ -8,6 +9,7 @@ import { UserService } from '../user/user.service';
 
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
+import { SignOutDto } from './dto/sign-out.dto';
 import { BadRequestException } from '@exception';
 
 export class AuthService {
@@ -37,7 +39,14 @@ export class AuthService {
     return [tokens, null];
   }
 
-  async signOut() {}
+  async signOut(signOutDto: SignOutDto): ReturnPromiseWithErr<UserToken> {
+    const [_, verifyErr] = this.tokenService.verify(signOutDto);
+    if (verifyErr) return [null, verifyErr];
+
+    const [token, err] = await this.tokenService.delete(signOutDto);
+    if (err) return [null, err];
+    return [token, null];
+  }
 
   private async addToken(user: UserWithoutPassword): ReturnPromiseWithErr<Token> {
     const tokenPayload: JwtPayload = {

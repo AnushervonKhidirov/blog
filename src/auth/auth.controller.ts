@@ -5,7 +5,8 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { CreateUserValidation } from '../user/validation/user.validation';
-import { SignInValidation } from './validation/auth.validation';
+import { SignInValidation, SignOutValidation } from './validation/auth.validation';
+import { SignOutDto } from './dto/sign-out.dto';
 
 export class AuthController {
   authService = new AuthService();
@@ -42,5 +43,19 @@ export class AuthController {
     res.status(200).send(token);
   }
 
-  async signOut(req: Request, res: Response) {}
+  async signOut(req: Request, res: Response) {
+    const [signOutDto, validationErr] = validate<SignOutDto>(SignOutValidation, req.body);
+    if (validationErr) {
+      res.status(validationErr.statusCode).send(validationErr);
+      return;
+    }
+
+    const [_, err] = await this.authService.signOut(signOutDto);
+    if (err) {
+      res.status(err.statusCode).send(err);
+      return;
+    }
+
+    res.status(200).send();
+  }
 }
