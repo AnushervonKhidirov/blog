@@ -17,7 +17,8 @@ model User {
   birthDate DateTime @map("birth_date") @db.Date
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
-  Token     Token[]
+  token     Token[]
+  post      Post[]
 
   @@map("users")
 }
@@ -26,7 +27,19 @@ model Token {
   refreshToken String   @id @map("refresh_token")
   userId       Int      @map("user_id")
   expiredAt    DateTime @map("expired_at") @db.Timestamp(0)
-  User         User     @relation(fields: [userId], references: [id])
+  user         User     @relation(fields: [userId], references: [id])
 
   @@map("users_token")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  text      String   @db.LongText
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("posts")
 }
