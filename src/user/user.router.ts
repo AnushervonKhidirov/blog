@@ -7,6 +7,5 @@ const userController = new UserController();
 
 UserRouter.get('/', userController.findMany.bind(userController));
 UserRouter.get('/:id', userController.findOne.bind(userController));
-UserRouter.post('/', userController.create.bind(userController));
 UserRouter.patch('/:id', userController.update.bind(userController));
 UserRouter.delete('/:id', userController.delete.bind(userController));
