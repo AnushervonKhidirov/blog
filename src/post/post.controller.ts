@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 
 import { validate } from '@validation/validation';
-import { paramId } from '@validation/schema/param.validation';
+import { paramId, paramUserId } from '@validation/schema/param.validation';
 import { CreatePostValidation, UpdatePostValidation } from './validation/user.validation';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -28,7 +28,13 @@ export class PostController {
   }
 
   async findMany(req: Request, res: Response) {
-    const [posts, err] = await this.service.findMany(undefined, true);
+    const [params, validationErr] = validate<{ userId: number }>(paramUserId, req.query);
+    if (validationErr) {
+      res.status(validationErr.statusCode).send(validationErr);
+      return;
+    }
+
+    const [posts, err] = await this.service.findMany(params, true);
     if (err) {
       res.status(err.statusCode).send(err);
       return;
@@ -62,6 +68,14 @@ export class PostController {
   }
 
   async update(req: Request, res: Response) {
+    if (!req['userId']) {
+      const exception = new UnauthorizedException();
+      res.status(exception.statusCode).send(exception);
+      return;
+    }
+
+    const userId = parseInt(req['userId']);
+
     const [params, paramsErr] = validate<{ id: number }>(paramId, req.params);
     if (paramsErr) {
       res.status(paramsErr.statusCode).send(paramsErr);
@@ -74,7 +88,7 @@ export class PostController {
       return;
     }
 
-    const [post, err] = await this.service.update(params.id, updatePostDto);
+    const [post, err] = await this.service.update(userId, params.id, updatePostDto);
     if (err) {
       res.status(err.statusCode).send(err);
       return;
@@ -84,13 +98,21 @@ export class PostController {
   }
 
   async delete(req: Request, res: Response) {
+    if (!req['userId']) {
+      const exception = new UnauthorizedException();
+      res.status(exception.statusCode).send(exception);
+      return;
+    }
+
+    const userId = parseInt(req['userId']);
+
     const [params, paramsErr] = validate<{ id: number }>(paramId, req.params);
     if (paramsErr) {
       res.status(paramsErr.statusCode).send(paramsErr);
       return;
     }
 
-    const [post, err] = await this.service.delete(params.id);
+    const [post, err] = await this.service.delete(userId, params.id);
     if (err) {
       res.status(err.statusCode).send(err);
       return;
