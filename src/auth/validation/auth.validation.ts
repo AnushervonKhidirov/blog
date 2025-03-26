@@ -8,3 +8,7 @@ export const SignInValidation = Joi.object({
 export const SignOutValidation = Joi.object({
   refreshToken: Joi.string().required(),
 });
+
+export const RefreshTokenValidation = Joi.object({
+  refreshToken: Joi.string().required(),
+});

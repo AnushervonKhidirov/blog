@@ -4,9 +4,14 @@ import { validate } from '@validation/validation';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
-import { CreateUserValidation } from '../user/validation/user.validation';
-import { SignInValidation, SignOutValidation } from './validation/auth.validation';
 import { SignOutDto } from './dto/sign-out.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { CreateUserValidation } from '../user/validation/user.validation';
+import {
+  SignInValidation,
+  SignOutValidation,
+  RefreshTokenValidation,
+} from './validation/auth.validation';
 
 export class AuthController {
   authService = new AuthService();
@@ -57,5 +62,24 @@ export class AuthController {
     }
 
     res.status(200).send();
+  }
+
+  async refreshToken(req: Request, res: Response) {
+    const [refreshTokenDto, validationErr] = validate<RefreshTokenDto>(
+      RefreshTokenValidation,
+      req.body,
+    );
+    if (validationErr) {
+      res.status(validationErr.statusCode).send(validationErr);
+      return;
+    }
+
+    const [token, err] = await this.authService.refreshToken(refreshTokenDto);
+    if (err) {
+      res.status(err.statusCode).send(err);
+      return;
+    }
+
+    res.status(200).send(token);
   }
 }
