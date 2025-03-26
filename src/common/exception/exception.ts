@@ -3,6 +3,7 @@ import { NotFoundException } from './not-found.exception';
 import { BadRequestException } from './bad-request.exception';
 import { InternalServerErrorException } from './internal-server-error.exception';
 import { ConflictException } from './conflict.exception';
+import { UnauthorizedException } from './unauthorized.exception';
 
 export {
   HttpException,
@@ -10,4 +11,5 @@ export {
   BadRequestException,
   InternalServerErrorException,
   ConflictException,
+  UnauthorizedException,
 };
