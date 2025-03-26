@@ -10,8 +10,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 export class UserService {
-  repository = new PrismaClient().user;
-  cost = process.env.HASH_COST ? +process.env.HASH_COST : 5;
+  private readonly repository = new PrismaClient().user;
+  private readonly cost = process.env.HASH_COST ? +process.env.HASH_COST : 5;
 
   async findOneWithPassword(where: Prisma.UserWhereUniqueInput): ReturnPromiseWithErr<User> {
     try {

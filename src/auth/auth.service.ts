@@ -14,8 +14,8 @@ import { BadRequestException, UnauthorizedException } from '@exception';
 import type { RefreshTokenDto } from './dto/refresh-token.dto';
 
 export class AuthService {
-  tokenService = new TokenService();
-  userService = new UserService();
+  private readonly tokenService = new TokenService();
+  private readonly userService = new UserService();
 
   async signUp(createUserDto: CreateUserDto): ReturnPromiseWithErr<Token> {
     const [user, err] = await this.userService.create(createUserDto);

@@ -10,7 +10,7 @@ import { UnauthorizedException } from '@exception';
 import { PostService } from './post.service';
 
 export class PostController {
-  service = new PostService();
+  private readonly service = new PostService();
 
   async findOne(req: Request, res: Response) {
     try {

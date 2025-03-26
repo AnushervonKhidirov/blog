@@ -8,7 +8,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 
 export class PostService {
-  repository = new PrismaClient().post;
+  private readonly repository = new PrismaClient().post;
 
   async findOne(
     where: Prisma.PostWhereUniqueInput,

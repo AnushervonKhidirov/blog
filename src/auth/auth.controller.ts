@@ -15,7 +15,7 @@ import {
 } from './validation/auth.validation';
 
 export class AuthController {
-  authService = new AuthService();
+  private readonly authService = new AuthService();
 
   async signUp(req: Request, res: Response) {
     try {
