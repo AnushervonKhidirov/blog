@@ -3,10 +3,8 @@ import type { Request, Response } from 'express';
 import { validate } from '@validation/validation';
 import { paramId } from '@validation/schema/param.validation';
 import { UserService } from './user.service';
-import { CreateUserValidation, UpdateUserValidation } from './validation/user.validation';
-
-import { CreateUserDto } from './dto/create-user.dto';
-import type { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserValidation } from './validation/user.validation';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 export class UserController {
   private readonly userService = new UserService();
