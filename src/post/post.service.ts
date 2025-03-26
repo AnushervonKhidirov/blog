@@ -53,9 +53,13 @@ export class PostService {
     }
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto): ReturnPromiseWithErr<Post> {
+  async update(
+    userId: number,
+    id: number,
+    updatePostDto: UpdatePostDto,
+  ): ReturnPromiseWithErr<Post> {
     try {
-      const [_, err] = await this.findOne({ id });
+      const [_, err] = await this.findOne({ id, userId });
       if (err) return [null, err];
 
       const post = await this.repository.update({ data: updatePostDto, where: { id } });
@@ -66,9 +70,9 @@ export class PostService {
     }
   }
 
-  async delete(id: number): ReturnPromiseWithErr<Post> {
+  async delete(userId: number, id: number): ReturnPromiseWithErr<Post> {
     try {
-      const [_, err] = await this.findOne({ id });
+      const [_, err] = await this.findOne({ id, userId });
       if (err) return [null, err];
 
       const post = await this.repository.delete({ where: { id } });
