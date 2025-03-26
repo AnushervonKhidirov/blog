@@ -1,4 +1,4 @@
 export class CreatePostDto {
-  title: string;
-  text: string;
+  readonly title: string;
+  readonly text: string;
 }

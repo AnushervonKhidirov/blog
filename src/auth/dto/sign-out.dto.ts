@@ -1,3 +1,3 @@
 export class SignOutDto {
-  refreshToken: string;
+  readonly refreshToken: string;
 }
