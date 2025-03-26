@@ -39,24 +39,6 @@ export class UserController {
     res.status(200).send(users);
   }
 
-  async create(req: Request, res: Response) {
-    const [createUserDto, validationErr] = validate<CreateUserDto>(CreateUserValidation, req.body);
-
-    if (validationErr) {
-      res.status(validationErr.statusCode).send(validationErr);
-      return;
-    }
-
-    const [user, err] = await this.userService.create(createUserDto);
-
-    if (err) {
-      res.status(err.statusCode).send(err);
-      return;
-    }
-
-    res.status(200).send(user);
-  }
-
   async update(req: Request, res: Response) {
     const [params, paramErr] = validate<{ id: number }>(paramId, req.params);
 
