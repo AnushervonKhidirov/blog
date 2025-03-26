@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { UnauthorizedException } from '@exception';
+import responseError from '@helper/response-error.helper';
 import { TokenService } from '../token/token.service';
 
 export const AuthMiddleware = () => {
@@ -12,19 +13,21 @@ export const AuthMiddleware = () => {
     try {
       const tokenService = new TokenService();
       const headers = req.headers;
-      if (!headers.authorization) throw new Error();
+      if (!headers.authorization) throw new UnauthorizedException('Invalid token');
 
       const accessToken = headers.authorization.split(' ')[1];
-      if (!accessToken) throw new Error();
+      if (!accessToken) throw new UnauthorizedException('Invalid token');
 
       const [token, err] = tokenService.verify({ accessToken });
-      if (err || !token.accessToken || typeof token.accessToken === 'string') throw new Error();
+      if (err || !token.accessToken || typeof token.accessToken === 'string') {
+        throw new UnauthorizedException('Invalid token');
+      }
+
       req['userId'] = token.accessToken.sub;
 
       next();
     } catch (err) {
-      const exception = new UnauthorizedException('Invalid token');
-      res.status(exception.statusCode).send(exception);
+      responseError(err, res);
     }
   };
 };

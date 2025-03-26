@@ -28,7 +28,8 @@
       "@config/*": ["./src/config/*"],
       "@type/*": ["./src/common/type/*"],
       "@validation/*": ["./src/common/validation/*"],
-      "@exception": ["./src/common/exception/exception"]
+      "@exception": ["./src/common/exception/exception"],
+      "@helper/*": ["./src/common/helper/*"]
     }
   }
 }
