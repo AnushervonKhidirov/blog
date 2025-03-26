@@ -6,7 +6,7 @@ import type { Token, DecodedToken } from './token.type';
 import { PrismaClient } from '@prisma/client';
 import { sign, verify } from 'jsonwebtoken';
 import { logger } from '@config/logger/logger';
-import { InternalServerErrorException, NotFoundException, UnauthorizedException } from '@exception';
+import { UnauthorizedException, InternalServerErrorException } from '@exception';
 import { SignOutDto } from '../auth/dto/sign-out.dto';
 
 export class TokenService {
@@ -47,11 +47,11 @@ export class TokenService {
   async delete({ refreshToken }: SignOutDto): ReturnPromiseWithErr<UserToken> {
     try {
       const token = await this.repository.delete({ where: { refreshToken } });
-      if (!token) return [null, new NotFoundException('Token not found')];
+      if (!token) return [null, new UnauthorizedException()];
       return [token, null];
     } catch (err) {
       logger.error(err);
-      return [null, new InternalServerErrorException()];
+      return [null, new UnauthorizedException()];
     }
   }
 
